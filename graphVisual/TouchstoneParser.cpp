@@ -9,6 +9,12 @@ bool TouchstoneParser::parse(const QString& filePath, std::vector<MeasuringPoint
 
     result.clear();
     lastErrorMessage.clear();
+
+    if (!filePath.endsWith(".s1p", Qt::CaseInsensitive)) {
+        lastErrorMessage = "File must be in Touchstone s1p format";
+        return false;
+    }
+
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         lastErrorMessage = "Cannot open file: " + filePath;
@@ -24,17 +30,7 @@ bool TouchstoneParser::parse(const QString& filePath, std::vector<MeasuringPoint
         line=in.readLine().trimmed();
         lineNumber++;
 
-        if(line.isEmpty()||line.startsWith("!")) {
-            continue;
-        }
-
-        if(!headerFound) {
-            if(validateHeader(line)) {
-                headerFound=true;
-            } else {
-               lastErrorMessage="Invalid header format at line " + QString::number(lineNumber);
-                return false;
-            }
+        if (line.isEmpty() || line.startsWith("!") || line.startsWith("#")) {
             continue;
         }
 
@@ -60,15 +56,12 @@ bool TouchstoneParser::parse(const QString& filePath, std::vector<MeasuringPoint
 
 }
 
-bool TouchstoneParser::validateHeader(const QString& line) {
-
-    return line.startsWith("# Hz S RI R 50");
-}
 
 bool TouchstoneParser::parseDataLine(const QString& line, MeasuringPoint& point) {
-    QStringList parts = line.split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+    QStringList parts = line.split(" ", Qt::SkipEmptyParts);
 
-    if (parts.size() < 3) {
+    if (parts.size() != 3) {
+        lastErrorMessage = QString("Invalid data format: expected 3 values, got %1").arg(parts.size());
         return false;
     }
 
