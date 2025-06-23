@@ -55,6 +55,7 @@ bool TouchstoneParser::parse(const QString& filePath, std::vector<MeasuringPoint
         return false;
     }
 
+
     return true;
 
 }
