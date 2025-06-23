@@ -22,12 +22,27 @@ Window {
         }
     }
 
+
     Button {
+        id: openFileButton
         text: "Open File"
         anchors.top: parent.top
         anchors.left: parent.left
         onClicked: fileDialog.open()
     }
+
+
+    Button {
+        id: clearButton
+        text: "Clear Graph"
+        anchors.top: parent.top
+        anchors.left: openFileButton.right
+        anchors.leftMargin: 10
+        onClicked: {
+            graph.points = []
+        }
+    }
+
 
     CustomGraph {
         id: graph
@@ -35,10 +50,12 @@ Window {
         anchors.margins: 40
     }
 
+
     MessageDialog {
         id: errorDialog
         title: "Error"
     }
+
 
     Connections {
         target: graphController
@@ -46,6 +63,7 @@ Window {
         function onErrorOccurred(message) {
             errorDialog.text = message
             errorDialog.open()
+            graph.points = []
         }
 
         function onDataUpdated(points) {
