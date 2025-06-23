@@ -1,4 +1,13 @@
 #include "GraphController.h"
+#include "LogMagProcessor.h"
+#include "TouchstoneParser.h"
+
+GraphController::GraphController(QObject* parent)
+    : QObject(parent)
+{
+    parser = std::make_unique<TouchstoneParser>();
+    processor = std::make_unique<LogMagProcessor>();
+}
 
 void GraphController::loadFile(const QString& filePath) {
     std::vector<MeasuringPoint> measurements;

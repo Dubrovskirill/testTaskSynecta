@@ -8,13 +8,16 @@
 #include "IParser.h"
 #include "IProcessor.h"
 #include "MeasuringPoint.h"
+#include "LogMagProcessor.h"
+#include "TouchstoneParser.h"
 
 class GraphController : public QObject
 {
     Q_OBJECT
 public:
    explicit GraphController(QObject* parent = nullptr);
-    Q_INVOKABLE void loadFile(const QString& filePath);
+
+   Q_INVOKABLE void loadFile(const QString& filePath);
 
 signals:
    void dataUpdated(const QList<QPointF>& points);

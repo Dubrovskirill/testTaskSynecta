@@ -1,5 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
+import QtQuick.Dialogs 1.3
+import App 1.0
 
 Window {
     width: 640
