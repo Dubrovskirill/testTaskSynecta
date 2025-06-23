@@ -29,3 +29,5 @@ HEADERS += \
     LogMagProcessor.h \
     MeasuringPoint.h \
     TouchstoneParser.h
+
+DISTFILES +=
