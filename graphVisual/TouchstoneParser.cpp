@@ -23,7 +23,6 @@ bool TouchstoneParser::parse(const QString& filePath, std::vector<MeasuringPoint
 
     QTextStream in(&file);
     QString line;
-    bool headerFound = false;
     int lineNumber = 0;
 
     while(!in.atEnd()){
